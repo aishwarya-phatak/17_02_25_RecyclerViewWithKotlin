@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var products : ArrayList<Product>
+    private lateinit var users : ArrayList<User>
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsAdapter: ProductsAdapter
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews(){
         recyclerView = findViewById(R.id.recyclerViewForProducts)
-        productsAdapter = ProductsAdapter(products)
+        productsAdapter = ProductsAdapter(products, users)
         recyclerView.adapter = productsAdapter
         recyclerView.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,
@@ -39,6 +40,12 @@ class MainActivity : AppCompatActivity() {
                 "Product - $i",
                 i * 500 + 1000)
             )
+        }
+
+        users = ArrayList<User>()
+
+        for (i in 1..10) {
+            users.add(User("User + $i"))
         }
     }
 }
