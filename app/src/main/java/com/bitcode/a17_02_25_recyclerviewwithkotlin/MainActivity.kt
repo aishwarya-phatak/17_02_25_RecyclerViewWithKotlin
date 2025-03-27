@@ -7,28 +7,41 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bitcode.a17_02_25_recyclerviewwithkotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var products : ArrayList<Product>
     private lateinit var users : ArrayList<User>
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsAdapter: ProductsAdapter
+    private lateinit var newAdapter: NewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(activityMainBinding.root)
         initArrayList()
         initViews()
     }
 
     private fun initViews(){
-        recyclerView = findViewById(R.id.recyclerViewForProducts)
+//      recyclerView = findViewById(R.id.recyclerViewForProducts)
         productsAdapter = ProductsAdapter(products, users)
-        recyclerView.adapter = productsAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this,
+        newAdapter = NewAdapter(products,users)
+
+        activityMainBinding.recyclerViewForProducts.adapter = newAdapter
+        activityMainBinding.recyclerViewForProducts.layoutManager = LinearLayoutManager(
+            this,
             LinearLayoutManager.VERTICAL,
-            false)
+            false
+        )
+
+//        recyclerView.adapter = productsAdapter
+//        recyclerView.layoutManager = LinearLayoutManager(this,
+//            LinearLayoutManager.VERTICAL,
+//            false)
     }
 
     private fun initArrayList(){

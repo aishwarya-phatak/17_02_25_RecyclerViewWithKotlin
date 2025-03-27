@@ -12,8 +12,8 @@ class ProductsAdapter(private var products : ArrayList<Product>,
                       private var users : ArrayList<User>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        val PRODUCT_VIEW_HOLDER = 1
-        val USER_VIEW_HOLDER = 2
+        private val PRODUCT_VIEW_HOLDER = 1
+        private val USER_VIEW_HOLDER = 2
 
         inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             var imageView1 : ImageView = itemView.findViewById(R.id.imageView1)
@@ -61,10 +61,10 @@ class ProductsAdapter(private var products : ArrayList<Product>,
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position%2 == 0){
-            return USER_VIEW_HOLDER
+        return if(position%2 == 0){
+            USER_VIEW_HOLDER
         } else {
-            return PRODUCT_VIEW_HOLDER
+            PRODUCT_VIEW_HOLDER
         }
     }
 }
