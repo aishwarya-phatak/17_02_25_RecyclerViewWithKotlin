@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.bitcode.a17_02_25_recyclerviewwithkotlin.databinding.ProductViewHolderBinding
 import com.bitcode.a17_02_25_recyclerviewwithkotlin.databinding.UserViewHolderBinding
@@ -24,15 +25,14 @@ class NewAdapter(
     private lateinit var productViewHolderBinding : ProductViewHolderBinding
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        private lateinit var imageView1 : ImageView
+        private lateinit var txtViewTitle : TextView
         init {
-
             Log.e("tag", "init block of PVH called")
-            var layoutInflater = LayoutInflater.from(itemView.context)
-            productViewHolderBinding = ProductViewHolderBinding.inflate(layoutInflater)
 
-            productViewHolderBinding.imageView1
-            productViewHolderBinding.textViewTitle
-            productViewHolderBinding.textViewPrice
+            itemView.findViewById<ImageView>(R.id.imageView1).setOnClickListener {
+                Log.e("tag", "imageview clicked")
+            }
         }
     }
 
@@ -48,9 +48,6 @@ class NewAdapter(
             init {
                 Log.e("tag", "init block of UVH called")
 
-                var layoutInflater = LayoutInflater.from(itemView.context)
-                userViewHolderBinding = UserViewHolderBinding.inflate(layoutInflater)
-                userViewHolderBinding.textViewName
             }
     }
 
