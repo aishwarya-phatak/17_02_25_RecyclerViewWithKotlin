@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme._17_02_25_RecyclerViewWithKotlin"
         tools:targetApi="31">
+        <activity android:name=".ProductDetailsActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

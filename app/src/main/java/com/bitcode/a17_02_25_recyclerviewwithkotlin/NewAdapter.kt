@@ -1,5 +1,6 @@
 package com.bitcode.a17_02_25_recyclerviewwithkotlin
 
+import android.content.Intent
 import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,16 +23,27 @@ class NewAdapter(
     private val USER_VIEW_HOLDER = 1
     private val PRODUCT_VIEW_HOLDER = 2
 
-    private lateinit var productViewHolderBinding : ProductViewHolderBinding
-
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private lateinit var imageView1 : ImageView
         private lateinit var txtViewTitle : TextView
+        var productViewHolderBinding = ProductViewHolderBinding.bind(itemView)
+
         init {
             Log.e("tag", "init block of PVH called")
 
-            itemView.findViewById<ImageView>(R.id.imageView1).setOnClickListener {
-                Log.e("tag", "imageview clicked")
+            productViewHolderBinding.imageView1.setOnClickListener {
+
+                //way 2
+                var intent = Intent(itemView.context, ProductDetailsActivity::class.java)
+                var product = products[adapterPosition]
+                intent.putExtra("product",product)
+                itemView.context.startActivity(intent)
+
+                //way 1
+//                var intent = Intent(itemView.context, ProductDetailsActivity::class.java)
+//                intent.putExtra("title", productViewHolderBinding.textViewTitle.text)
+//                intent.putExtra("price",productViewHolderBinding.textViewPrice.text)
+//                itemView.context.startActivity(intent)
             }
         }
     }
@@ -43,11 +55,9 @@ class NewAdapter(
     }
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-            private lateinit var userViewHolderBinding: UserViewHolderBinding
-
+        var userViewHolderBinding = UserViewHolderBinding.bind(itemView)  //bind
             init {
                 Log.e("tag", "init block of UVH called")
-
             }
     }
 
@@ -61,18 +71,18 @@ class NewAdapter(
             var userView = userViewHolderBinding.root
             return UserViewHolder(userView)
         }  else {
-            productViewHolderBinding = ProductViewHolderBinding
+            var productViewHolderBinding = ProductViewHolderBinding
                 .inflate(LayoutInflater.from(parent.context))
 
             //way 1 - inner class object
 //            productViewHolderBinding.imageView1.setOnClickListener(MyBtnClickListener())
 
             //way 2 - using own argument x instead of it
-            productViewHolderBinding.imageView1.setOnClickListener{ x ->
-                if (x is ImageView){
-                    Toast.makeText(parent.context,"lambda function",Toast.LENGTH_LONG).show()
-                }
-            }
+//            productViewHolderBinding.imageView1.setOnClickListener{ x ->
+//                if (x is ImageView){
+//                    Toast.makeText(parent.context,"lambda function",Toast.LENGTH_LONG).show()
+//                }
+//            }
 
             //way 3 - by using it keyword
 //            productViewHolderBinding.imageView1.setOnClickListener{
@@ -85,12 +95,15 @@ class NewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is UserViewHolder){
+            holder.userViewHolderBinding.textViewName.text = users[position/3].username
             Log.e("tag", "onbind inside holder")
-                holder.itemView.findViewById<TextView>(R.id.textViewName).text = users[position/3].username
-        } else {
-              holder.itemView.findViewById<TextView>(R.id.textViewTitle).text  = products[position - (position/3)].title
-              holder.itemView.findViewById<TextView>(R.id.textViewPrice).text = products[position - (position/3)].price.toString()
-            holder.itemView.findViewById<ImageView>(R.id.imageView1).setImageResource(R.drawable.ic_launcher_background)
+        }
+        if(holder is ProductViewHolder){
+            holder.productViewHolderBinding.imageView1.
+                 setImageResource(R.drawable.ic_launcher_background)
+
+            holder.productViewHolderBinding.textViewTitle.text = products[position - (position/3)].title
+            holder.productViewHolderBinding.textViewPrice.text = products[position - (position/3)].price.toString()
         }
     }
 
